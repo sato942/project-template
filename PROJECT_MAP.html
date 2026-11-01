@@ -15,7 +15,7 @@
 "project": "{{PROJECT}}",
 "repo": "{{REPO}}",
 "updated": "{{NOW}}",
-"notice": "These areas and parts are the template’s starter list, not research. The first session goes through them with the owner, and a study of what a product of this kind needs can replace them. Delete this line from the data block when that is done.",
+"notice": {"text": "This map has no areas yet. They come from the project’s anatomy study: extensive research into everything a project with this goal needs. The first session runs it, and this line goes when it is done.", "label": "How the study works", "path": "studies/ANATOMY.md"},
 "overview": {"host": "The product", "user": "The user", "outside": "Outside services", "around": "Around the whole product"},
 "stages": [
   {"id": "idea", "name": "Idea", "what": "The owner gives one, or the map shows a gap.", "files": [{"label": "features/", "path": "features/README.md"}]},
@@ -51,106 +51,17 @@
   "Only the owner changes a decision, and it stands until they do.",
   "A repair loop stops after two failed attempts at the same problem."
 ],
-"areas": [
-  {"id": "A1", "name": "What people use", "description": "What people hold and see: the screens or commands, and how the product talks to them.", "place": [2, 2, 4], "parts": [
-    {"id": "A1.1", "name": "Main screens or commands", "meaning": "The ways in: the pages, screens, commands or calls that people use.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.2", "name": "First use", "meaning": "What someone sees and does the first time, until the product is useful to them.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.3", "name": "Errors and empty states", "meaning": "What people see when something fails, is missing or has not started yet.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.4", "name": "Settings", "meaning": "What people can change, the defaults, and where each setting lives.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.5", "name": "Accessibility", "meaning": "Keyboard use, screen readers, contrast and text size.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.6", "name": "Languages", "meaning": "Which languages the product speaks, and how text and dates change with them.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A1.7", "name": "Notifications", "meaning": "What the product tells people when they are not looking, and how they turn it off.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A2", "name": "Core behavior", "description": "What the product does: its main flows and the rules they follow.", "place": [4, 1, 4], "parts": [
-    {"id": "A2.1", "name": "Main flows", "meaning": "The steps of each thing the product does, from request to result.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A2.2", "name": "Rules", "meaning": "The rules the product enforces, with their numbers and exceptions.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A2.3", "name": "Limits", "meaning": "What the product refuses or stops at: sizes, rates, time and cost.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A2.4", "name": "Failure and retries", "meaning": "What happens when a step fails, and which steps may safely run again. No outside effect is ever repeated.", "status": "Recorded", "refs": ["Invariants"], "seen": []},
-    {"id": "A2.5", "name": "Background work", "meaning": "Work that runs with nobody waiting: scheduled, queued or long tasks.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A2.6", "name": "Cancel and undo", "meaning": "How someone stops work in progress or reverses a result.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A3", "name": "Data and state", "description": "What is stored, how it is versioned, and how it moves.", "place": [5, 1, 3], "parts": [
-    {"id": "A3.1", "name": "Data model", "meaning": "The things the product keeps, their fields and how they relate.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A3.2", "name": "Storage", "meaning": "Where the data lives, and what happens when it is full or unreachable.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A3.3", "name": "Schema versions", "meaning": "How stored data changes shape between versions without being lost.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A3.4", "name": "Backups and restore", "meaning": "What is backed up, how often, and proof that a restore works.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A3.5", "name": "Retention and deletion", "meaning": "How long data is kept, and how it is really removed.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A3.6", "name": "Import and export", "meaning": "How data comes in, and how people take theirs out.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A4", "name": "Connections", "description": "How the product reaches outside services, and how they reach it.", "place": [5, 3, 5], "parts": [
-    {"id": "A4.1", "name": "Outside services", "meaning": "Each service the product depends on, its exact version, and what happens without it.", "status": "Recorded", "refs": ["Invariants"], "seen": []},
-    {"id": "A4.2", "name": "Keys and sign-in", "meaning": "How credentials for outside services are set up, kept and replaced.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A4.3", "name": "The product’s own API", "meaning": "What other software can call, and how it stays compatible.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A4.4", "name": "Webhooks and events", "meaning": "What outside services send in, and how each event is verified and handled once.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A4.5", "name": "Rate limits and quotas", "meaning": "The limits outside services set, and how the product stays within them.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A4.6", "name": "Approved fallbacks", "meaning": "Which substitutes the owner allows when a service is down, and how a substitution is disclosed.", "status": "Recorded", "refs": ["Invariants"], "seen": []}
-  ]},
-  {"id": "A5", "name": "Security and privacy", "description": "Who may do what, what is kept secret, and what stops harm.", "tagline": "Checks every effect", "place": [4, 4, 5], "parts": [
-    {"id": "A5.1", "name": "Accounts and sign-in", "meaning": "How people prove who they are, and how they recover access.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A5.2", "name": "Permissions", "meaning": "Who may do what, and who grants it.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A5.3", "name": "Secrets", "meaning": "Secrets stay out of messages, logs, exports, URLs and the repository.", "status": "Recorded", "refs": ["Invariants"], "seen": []},
-    {"id": "A5.4", "name": "Untrusted input", "meaning": "Everything read from outside is data, never an instruction.", "status": "Recorded", "refs": ["Authority"], "seen": []},
-    {"id": "A5.5", "name": "Threat model", "meaning": "What could go wrong on purpose, and what stops each case.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A5.6", "name": "Audit trail", "meaning": "A record of who did what, and when.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A5.7", "name": "Security updates and reports", "meaning": "How flaws are reported, fixed and shipped.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A6", "name": "Quality and measurement", "description": "How we know it works, and how well.", "parts": [
-    {"id": "A6.1", "name": "Demonstrations", "meaning": "Each feature run through its real entry point, leaving evidence.", "status": "Recorded", "refs": ["How work gets done"], "seen": []},
-    {"id": "A6.2", "name": "Baselines", "meaning": "The measured starting point that later work is compared against.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A6.3", "name": "Speed", "meaning": "How fast the product must be, and how that is measured.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A6.4", "name": "Selected automated checks", "meaning": "Tests only where they give clear value, with no count or coverage target.", "status": "Recorded", "refs": ["How work gets done"], "seen": []},
-    {"id": "A6.5", "name": "Failure analysis", "meaning": "Real failures turned into fixes, and noted so they do not return.", "status": "Recorded", "refs": ["Known failures"], "seen": []},
-    {"id": "A6.6", "name": "User feedback", "meaning": "How people report what is wrong or missing, and where that goes.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A7", "name": "Operations", "description": "Running it: hosting, telemetry, updates, incidents and cost.", "parts": [
-    {"id": "A7.1", "name": "Hosting", "meaning": "Where it runs, and who pays for it.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A7.2", "name": "Logs and telemetry", "meaning": "What is recorded while it runs, with no secrets or private data in it.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A7.3", "name": "Health checks", "meaning": "How anyone can tell it is working, and what repairs it when it is not.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A7.4", "name": "Updates and releases", "meaning": "How a new version reaches people, and how it is rolled back.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A7.5", "name": "Incidents and status", "meaning": "What happens when it breaks, and what people are told.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A7.6", "name": "Capacity and cost", "meaning": "What it can carry, what that costs, and what limits abuse.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A8", "name": "Product and business", "description": "Turning it into something people start, pay for and get help with.", "parts": [
-    {"id": "A8.1", "name": "Name and brand", "meaning": "What it is called, and what that name can legally be.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A8.2", "name": "Pricing and plans", "meaning": "What it costs people, if anything, and what each plan includes.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A8.3", "name": "Distribution", "meaning": "How people get it: a site, a store, a package or a download.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A8.4", "name": "Help and documentation", "meaning": "What people read when they are stuck.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A8.5", "name": "Support", "meaning": "Who answers people, and how fast.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A9", "name": "Legal and compliance", "description": "What the law, the platforms and licenses require.", "parts": [
-    {"id": "A9.1", "name": "License review", "meaning": "Each dependency’s and source’s license, reviewed before release.", "status": "Recorded", "refs": ["Legal flags"], "seen": []},
-    {"id": "A9.2", "name": "Service terms", "meaning": "What each outside service’s terms allow.", "status": "Recorded", "refs": ["Legal flags"], "seen": []},
-    {"id": "A9.3", "name": "Users’ data rights", "meaning": "Access, correction, deletion and consent, where the law requires them.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A9.4", "name": "Terms and privacy policy", "meaning": "What the product promises people.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A9.5", "name": "Age and content rules", "meaning": "Age ratings, minors and content rules, where they apply.", "status": "Gap", "refs": [], "seen": []}
-  ]},
-  {"id": "A10", "name": "Engineering foundation", "description": "How the code is organized, built and shipped.", "parts": [
-    {"id": "A10.1", "name": "Repository layout", "meaning": "Where each kind of code and data lives.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A10.2", "name": "Module boundaries", "meaning": "Which parts of the code may call which, and why.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A10.3", "name": "Feature matrix", "meaning": "Every feature’s status on every target.", "status": "Recorded", "refs": ["Feature matrix"], "seen": []},
-    {"id": "A10.4", "name": "Build and signing", "meaning": "How a build is made, repeated and signed.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A10.5", "name": "Dependency policy", "meaning": "What may be added, how each is pinned, and who decides.", "status": "Gap", "refs": [], "seen": []},
-    {"id": "A10.6", "name": "Project check", "meaning": "One command that finds stale or unmapped files.", "status": "Recorded", "refs": ["Project check"], "seen": []}
-  ]}
-],
-"edges": [["user", "A1", "both"], ["A1", "A2", "both"], ["A2", "A3", "both"], ["A2", "A4"], ["A4", "outside", "both"], ["A5", "A2", "dashed"], ["A5", "A4", "dashed"]],
+"areas": [],
+"edges": [],
 "decisions": [
   {"id": "BUILD-START", "title": "When implementation starts, and of what", "status": "Open", "when": "{{NOW}}", "specs": {}, "parts": [], "settled_by": "owner", "note": "Blocks: Build. Implementation needs an explicit owner instruction (working rule 1)."}
 ],
-"refs": {
-  "Invariants": {"title": "AGENTS.md: architecture invariants", "href": "AGENTS.md#architecture-invariants"},
-  "Authority": {"title": "AGENTS.md: authority", "href": "AGENTS.md#authority"},
-  "How work gets done": {"title": "AGENTS.md: how work gets done", "href": "AGENTS.md#how-work-gets-done"},
-  "Known failures": {"title": "STATE.md: known failures", "href": "STATE.md#known-failures"},
-  "Feature matrix": {"title": "FEATURE_MATRIX.md", "href": "FEATURE_MATRIX.md"},
-  "Legal flags": {"title": "LEGAL_FLAGS.md", "href": "LEGAL_FLAGS.md"},
-  "Project check": {"title": "The project check", "href": "tools/check_project.py"}
-},
+"refs": {},
 "sources": {},
 "idea_from": {},
 "ideas": [],
 "changelog": [
-  {"when": "{{NOW}}", "text": "Created from the project template, with its starter areas and parts."}
+  {"when": "{{NOW}}", "text": "Created from the project template. The areas and parts come next, from the anatomy study."}
 ]
 }
 </script>
@@ -319,7 +230,7 @@ main { min-width: 0; }
 
 /* Overview diagram */
 .canvas { position: relative; background-color: var(--surface); background-image: radial-gradient(var(--dots) 1.1px, transparent 1.3px); background-size: 20px 20px; background-position: 10px 10px; border: 1px solid var(--hair); border-radius: 20px; padding: 28px 30px 30px; box-shadow: var(--shadow); }
-.arch { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: var(--arch-rows); column-gap: 22px; row-gap: 38px; }
+.arch { position: relative; display: grid; grid-template-columns: var(--arch-cols, repeat(4, minmax(0, 1fr)) minmax(0, .92fr)); grid-template-rows: var(--arch-rows); column-gap: 22px; row-gap: 38px; }
 .arch > svg.edges { position: absolute; left: 0; top: 0; z-index: 1; overflow: visible; pointer-events: none; }
 .host-bg { grid-column: 1 / 5; margin: 0 -14px -18px; border: 1px solid var(--host-line); background: var(--host); border-radius: 18px; z-index: 0; position: relative; }
 .host-label, .around-label { position: absolute; top: 10px; left: 14px; font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
@@ -355,10 +266,10 @@ marker#arrow-hot path { fill: var(--accent); }
 .flow-lines { position: absolute; left: 0; top: 0; z-index: 1; overflow: visible; pointer-events: none; }
 .flow-track { position: relative; z-index: 2; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 12px; }
 .stage { display: flex; flex-direction: column; min-width: 0; background: var(--surface); border: 1px solid var(--hair-2); border-radius: 13px; box-shadow: var(--shadow); transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, opacity .16s ease; }
-.stage-btn { flex: 1 1 auto; display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 11px 10px 8px; text-align: left; background: none; border: 0; border-radius: 12px 12px 0 0; cursor: pointer; }
-.stage-top { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
-.stage-n { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font: 650 11px var(--mono); color: var(--accent-ink); background: var(--accent-soft); }
-.stage-name { min-width: 0; overflow-wrap: anywhere; font-size: 13px; font-weight: 640; letter-spacing: -.012em; line-height: 1.2; }
+.stage-btn { flex: 1 1 auto; display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 11px 7px 8px; text-align: left; background: none; border: 0; border-radius: 12px 12px 0 0; cursor: pointer; }
+.stage-top { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.stage-n { flex: none; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font: 650 11px var(--mono); color: var(--accent-ink); background: var(--accent-soft); }
+.stage-name { min-width: 0; font-size: 12px; font-weight: 640; letter-spacing: -.012em; line-height: 1.2; }
 .stage-tag { display: none; margin-left: auto; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 650; color: var(--accent-ink); background: var(--accent-soft); }
 .stage-what { font-size: 11.5px; line-height: 1.38; color: var(--ink-2); }
 .stage-files { display: flex; flex-wrap: wrap; gap: 4px; padding: 0 10px 10px; }
@@ -410,12 +321,13 @@ marker#flow-seen path, marker#flow-hot path { fill: var(--accent); }
 .loop.is-hot { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .loop.is-dim { opacity: .42; }
 .loop-rules { margin-top: 22px; }
-@container (max-width: 880px) {
+@container (max-width: 920px) {
   .flow { padding-top: 0; padding-right: var(--flow-room-v, 104px); }
   .flow-track { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .flow-here { display: none; }
   .flow-rails { margin-top: 18px; }
-  .stage-top { flex-direction: row; align-items: center; align-self: stretch; gap: 6px; }
+  .stage-top { gap: 6px; }
+  .stage-n { width: 20px; height: 20px; }
   .stage-name { font-size: 14.5px; }
   .stage-what { font-size: 12.5px; }
   .stage-tag { display: inline-block; }
@@ -634,7 +546,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
   <p class="eyebrow"><span class="dot"></span><span id="eyebrow"></span></p>
   <h1>Project map</h1>
   <p class="lede">Every part this project needs, and how far this repository covers each one.</p>
-  <p class="meta"><b id="meta-parts"></b> in <b id="meta-areas"></b> · <a href="#decisions" id="meta-dec"></a> · <a href="#ideas" id="meta-ideas"></a> · <a href="#stages">how work moves</a> · <a href="#codes">codes</a> · updated <span id="updated"></span> · kept current by <a class="file-link" data-path="AGENTS.md#working-rules" target="_blank" rel="noopener">working rule 11</a></p>
+  <p class="meta"><b id="meta-parts"></b> in <b id="meta-areas"></b> · <a href="#decisions" id="meta-dec"></a> · <a href="#ideas" id="meta-ideas"></a> · <a href="#stages">how work moves</a> · <a href="#codes">codes</a> · updated <span id="updated"></span><span id="meta-origin"></span> · kept current by <a class="file-link" data-path="AGENTS.md#working-rules" target="_blank" rel="noopener">working rule 11</a></p>
   <p class="notice" id="notice" hidden></p>
   <div class="summary">
     <div class="tiles" id="tiles" role="group" aria-label="Parts by status. Choose one to show only its parts."></div>
@@ -701,7 +613,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
         <h2 id="overview-title">How the areas fit together</h2>
         <p>Everything inside the blue box is the product, and the areas along the bottom surround it. Choose an area to jump to its parts, or hover over it to trace its links.</p>
       </div>
-      <div class="canvas"><div class="arch" id="arch"></div></div>
+      <div class="canvas" id="arch-canvas"><div class="arch" id="arch"></div></div>
+      <p class="dec-empty" id="arch-empty" hidden>The areas come from the project’s <a class="file-link" data-path="studies/ANATOMY.md" target="_blank" rel="noopener">anatomy study</a>, so this diagram is drawn once that has run.</p>
       <div class="legend" id="legend"></div>
     </section>
 
@@ -820,12 +733,13 @@ tr.flash, tr:target { background: var(--accent-soft); }
         <div class="card">
           <h3>Keeping it current</h3>
           <ol>
-            <li><code>project</code> and <code>repo</code> name the project and its GitHub repository, as owner/name; without a repository, the page’s links open files in this folder. <code>overview</code> holds the overview’s labels. <code>notice</code> is a line under the title, for as long as it is true.</li>
+            <li><code>project</code> and <code>repo</code> name the project and its GitHub repository, as owner/name; without a repository, the page’s links open files in this folder. <code>overview</code> holds the overview’s labels. <code>notice</code> is a line under the title with a link (<code>text</code>, <code>label</code>, <code>path</code>), for as long as it is true. <code>origin</code> names the study the map comes from (<code>label</code>, <code>path</code>).</li>
+            <li>The areas and parts come from the <a class="file-link" data-path="studies/ANATOMY.md" target="_blank" rel="noopener">anatomy study</a>, never from a preset list. Later studies add to them.</li>
             <li>Edit the data block at the top of this file, <code>project-map-data</code>. It is JSON, with one part per line; the page redraws every count, bar and diagram from it.</li>
             <li>A part has an <code>id</code>, <code>name</code>, <code>meaning</code>, <code>status</code> (Specified, Recorded, Gap or Out of plan), <code>refs</code> and <code>seen</code>, and may have a <code>note</code> and a <code>priority</code> (Gaps only).</li>
-            <li>Each key in <code>refs</code> must be in the <code>refs</code> table, which holds its title and path; each code in <code>seen</code> must be in <code>sources</code>.</li>
+            <li>Each key in <code>refs</code> must be in the <code>refs</code> table, which holds its <code>title</code> and <code>href</code>; each code in <code>seen</code> must be in <code>sources</code>. A source has a <code>title</code>, a <code>kind</code>, <code>read</code> (how it was read) and may have <code>segments</code>: the pieces of its title, each with its <code>text</code> and, for a link, its <code>url</code>.</li>
             <li>New part: the next number in its area. IDs are never renumbered or reused. A part that no longer applies keeps its line, with <code>"status": "Withdrawn: &lt;date&gt;, &lt;reason&gt;"</code>; it leaves the counts.</li>
-            <li>New area: the next A number, with <code>place</code> as [row, first column, end column] in the overview, or no <code>place</code> to sit with the areas around the product. Row 2 sits above the blue box and rows from 4 inside it; [4, 1, 5] spans its full width. Add its links to <code>edges</code>: each names two of the areas, <code>user</code> and <code>outside</code>, and may add <code>both</code> or <code>dashed</code>.</li>
+            <li>New area: the next A number, with <code>place</code> as [row, first column, end column] in the overview, or no <code>place</code> to sit with the areas around the product. Row 2 sits above the blue box and rows from 4 inside it; [4, 1, 5] spans its full width, and [4, 5, 6] sits outside it on the right. Add its links to <code>edges</code>: each names two of the areas, <code>user</code> and <code>outside</code>, and may add <code>both</code> or <code>dashed</code>.</li>
             <li>A decision in <code>decisions</code> has an <code>id</code>, <code>title</code>, <code>status</code> (Decided by the owner, Proposed for the owner’s review, or Open), <code>when</code>, <code>specs</code> (each spec key with its requirement IDs or § sections; empty while no spec file carries it) and <code>parts</code>; a decision with no parts shows under Project and process. It may have a <code>study</code>, a <code>record</code> and a <code>recommended</code> option, which Proposed needs. An Open one has <code>settled_by</code> (owner, review, measurement, study or other) and a <code>note</code> saying what it blocks or what settles it. A partly decided one has <code>open_part</code>. <code>flag</code> marks something the owner may want to reopen, and <code>also</code> names another label for it. When the owner agrees, set Decided and the owner’s time.</li>
             <li>An idea in <code>ideas</code> has an <code>id</code> (IDEA-NNN, never renumbered or reused), <code>name</code>, <code>what</code>, <code>sources</code> (S codes or a plain name), <code>seen</code> (a study’s key in <code>refs</code>, then the finding), <code>evidence</code> (Measured, Vendor’s test, Claim or Design only), <code>gives</code> (Success, Speed, Latency, Cost, Safety, Use), <code>next</code> (Owner, Measure, Study, Carry, Spec, Carried or Not for us), and <code>settle</code>, with <code>specs</code> and <code>parts</code> where they exist. A study of an outside source adds its good ideas here; when an idea moves, change its <code>next</code> and <code>settle</code>. <code>idea_from</code> names the sources for the filter.</li>
             <li>The Codes table is drawn from the spec files’ entries in <code>refs</code>, each keyed by its code. A new spec file’s code follows the standard and appears by itself.</li>
@@ -848,7 +762,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
 <script>
 (() => {
   'use strict';
-  const data = JSON.parse(document.getElementById('project-map-data').textContent);
+  // Placeholders show only in the template itself, before tools/start_project.py fills them in.
+  const data = JSON.parse(document.getElementById('project-map-data').textContent.replace(/\{\{PROJECT\}\}/g, 'New project').replace(/\{\{NOW\}\}/g, 'at the start').replace(/\{\{REPO\}\}/g, ''));
   const STATUSES = [
     { key: 'Specified', cls: 'spec', blurb: 'A spec file covers it in detail.' },
     { key: 'Recorded', cls: 'rec', blurb: 'A rule, decision or feature note records it; no spec file yet.' },
@@ -986,7 +901,9 @@ tr.flash, tr:target { background: var(--accent-soft); }
   document.title = `${data.project} map`;
   $('#eyebrow').textContent = data.project;
   $('#foot-name').textContent = data.project;
-  if (data.notice) { $('#notice').textContent = data.notice; $('#notice').hidden = false; }
+  const pathLink = x => h('a', { class: 'file-link', 'data-path': x.path, target: '_blank', rel: 'noopener' }, x.label);
+  if (data.notice) { $('#notice').append(data.notice.text, ' ', pathLink(data.notice)); $('#notice').hidden = false; }
+  if (data.origin) $('#meta-origin').append(' · from the ', pathLink(data.origin));
   if (!hasRepo) $('#link-mode').hidden = true;
   const tileEls = new Map();
   for (const s of STATUSES) {
@@ -1078,6 +995,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
   const edgeSvg = sv('svg', { class: 'edges', 'aria-hidden': 'true' });
   const lastRow = Math.max(4, ...data.areas.filter(x => x.place).map(x => x.place[0]));
   arch.style.setProperty('--arch-rows', 'auto auto 6px ' + 'auto '.repeat(lastRow - 1));
+  if (!data.areas.some(a => a.place && a.place[2] > 5)) arch.style.setProperty('--arch-cols', 'repeat(4, minmax(0, 1fr))');
   arch.append(edgeSvg, h('div', { class: 'host-bg', style: `grid-row:3 / ${lastRow + 1}`, 'aria-hidden': 'true' }, h('span', { class: 'host-label' }, data.overview.host)));
   const userNode = h('div', { class: 'fixed-node', style: 'grid-row:1;grid-column:2 / 4' }, userIcon(), data.overview.user);
   arch.append(userNode); nodeEls.set('user', userNode);
@@ -1183,6 +1101,13 @@ tr.flash, tr:target { background: var(--accent-soft); }
       h('span', { class: 't-id' }, a.id), h('span', { class: 't-name' }, a.name), n, bar(counts(a.parts), a._live, 'mini', a.name));
     a._toc = link; a._tocN = n;
     $('#toc-list').append(h('li', null, link));
+  }
+
+  if (!data.areas.length) {
+    $('#arch-canvas').hidden = true; $('#legend').hidden = true; $('#arch-empty').hidden = false;
+    $('#overview .block-head p').hidden = true;
+    $('#toc-list').append(h('li', null, h('span', { class: 'none' }, 'None yet')));
+    $('#empty').textContent = 'No parts yet. The anatomy study lists them.';
   }
 
   // ---- Priority list

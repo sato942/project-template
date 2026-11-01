@@ -179,10 +179,10 @@ try:
         checked += 1
         resolves(href, MAP)
     stage_ids = {s['id'] for s in data.get('stages', [])}
-    for f in [f for s in data.get('stages', []) for f in s['files']] + data.get('stage_rails', []):
+    for f in [f for s in data.get('stages', []) for f in s['files']] + data.get('stage_rails', []) + [data.get('notice') or {}, data.get('origin') or {}]:
         if f.get('path'):
             checked += 1
-            resolves(f['path'], f'{MAP} stages')
+            resolves(f['path'], MAP)
     errors.extend(f'map loop {x["id"]} names an unknown stage' for x in data.get('loops', []) if x['from'] not in stage_ids or x['to'] not in stage_ids)
     errors.extend(f'map stage_now names unknown stage {s!r}' for s in (data['stage_now']['stages'] + data['stage_now']['not_started'] if data else []) if s not in stage_ids)
     nodes = {a['id'] for a in data.get('areas', [])} | {'user', 'outside'}

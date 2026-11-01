@@ -20,7 +20,13 @@ cd my-project
 python tools/start_project.py
 ```
 
-Or choose **Use this template** on GitHub and clone the result. Either way, then open the folder with your coding agent. `AGENTS.md` and `STATE.md` tell it what to do first: ask you what the project is, what decisions should be judged on, and which of the map's starter parts apply.
+Or choose **Use this template** on GitHub and clone the result. Either way, then open the folder with your coding agent. `AGENTS.md` and `STATE.md` tell it what to do first:
+
+1. Ask you what the project is and what decisions should be judged on.
+2. Run the [anatomy study](studies/ANATOMY.md): extensive research into everything a project with that goal needs.
+3. Build the map from what it found, and go through it with you.
+
+The map starts empty on purpose. Its areas and parts come from that research and use the field's own words, so every project gets a map that fits it.
 
 **What the script does, once:** it fills in the project's name, owner, time zone and repository everywhere, replaces this README with the project's own, turns on the check that runs before each commit, deletes itself and runs that check. It commits nothing. It takes its values from the repository and the machine; run `python tools/start_project.py --help` to set them yourself. It refuses to run while `origin` still points at this template.
 
@@ -32,7 +38,7 @@ Or choose **Use this template** on GitHub and clone the result. Either way, then
 | [STATE.md](STATE.md) | Where the project stands now, what is in flight and what waits for the owner |
 | [PROJECT_MAP.html](PROJECT_MAP.html) | The interface to all of it: every part the project needs and how far each is covered, every decision, the stages of work and an ideas bank. Open it in a browser from a local clone. It works offline and decides nothing |
 | [features/](features/README.md) | The owner's intent, in their own words, one note per feature, with [PRODUCT.md](features/PRODUCT.md) for the whole product |
-| [studies/](studies/README.md) | Dated research: the options compared, with every query and URL in a research log |
+| [studies/](studies/README.md) | Dated research: the [anatomy study](studies/ANATOMY.md) that sets the map, then the options compared before each decision, with every query and URL in a research log |
 | [specs/](specs/README.md) | The specification, one file per feature, with requirement IDs and `UNEXECUTED` validations |
 | [FEATURE_MATRIX.md](FEATURE_MATRIX.md) | Every feature's status on every target |
 | [LEGAL_FLAGS.md](LEGAL_FLAGS.md) | License and terms flags, for a legal review before release |
@@ -40,7 +46,7 @@ Or choose **Use this template** on GitHub and clone the result. Either way, then
 
 ## How work moves
 
-Idea → Research → Spec → Decide → Build → Demonstrate → Measure → Deliver. Any stage can send work back to an earlier one, for a reason: the stages are an order, not gates. Decisions go to the owner only after research, as a multiple choice question with exactly one recommended option. Building needs the owner's instruction.
+A project starts with its anatomy study. Then each feature moves through Idea → Research → Spec → Decide → Build → Demonstrate → Measure → Deliver. Any stage can send work back to an earlier one, for a reason: the stages are an order, not gates. Decisions go to the owner only after research, as a multiple choice question with exactly one recommended option. Building needs the owner's instruction.
 
 Building itself follows **build → demonstrate → deliver**:
 

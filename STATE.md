@@ -7,7 +7,7 @@
 - **Stage:** Idea ([stages](AGENTS.md#stages-of-the-work)).
 - **Nothing is built, measured or decided.** Every proposed validation is `UNEXECUTED`, and nothing here authorizes implementation (AGENTS.md working rule 1).
 - **Repository:** `{{REPO}}`.
-- **Project map:** [PROJECT_MAP.html](PROJECT_MAP.html), an interactive page opened in a browser, lists every part the project needs, every owner decision, what waits for the owner and what stays open; the page shows the counts. Its JSON data block is the list: edit that, and the page redraws its overview, counts and filters. GitHub shows an HTML file as source, so open it from the local clone. Its parts are a starter list until the first session goes through them.
+- **Project map:** [PROJECT_MAP.html](PROJECT_MAP.html), an interactive page opened in a browser, lists every part the project needs, every owner decision, what waits for the owner and what stays open; the page shows the counts. Its JSON data block is the list: edit that, and the page redraws its overview, counts and filters. GitHub shows an HTML file as source, so open it from the local clone. It has no areas until the anatomy study has run.
 - **Latest owner decisions:** none yet. Each new one gets a line here that links to where it is recorded ([Coupled files](AGENTS.md#coupled-files)).
 
 ## Progress by spec file
@@ -25,11 +25,12 @@ A row looks like this, and the project check compares its numbers with the spec 
 
 **The first session.** The project was just created from the template, so this comes first, in this order. Replace this section when it is done.
 
-1. Ask the owner what the project is, and write their words in [features/PRODUCT.md](features/PRODUCT.md).
+1. Ask the owner what the project is and what its goal is, and write their words in [features/PRODUCT.md](features/PRODUCT.md).
 2. Ask what decisions should be judged on, as a multiple choice question, and write the answer under [Values](AGENTS.md#values). Add any invariants the owner names under [Architecture invariants](AGENTS.md#architecture-invariants).
-3. Set the targets in [FEATURE_MATRIX.md](FEATURE_MATRIX.md), and the commands under [How work gets done](AGENTS.md#how-work-gets-done) once something runs.
-4. Go through the starter parts in [PROJECT_MAP.html](PROJECT_MAP.html) with the owner: mark what does not apply Out of plan, and add what is missing. Offer a study of what a product of this kind needs, which would replace the starter list with a researched one.
-5. Record each idea the owner gives as a feature: [Recording new owner ideas](features/README.md#recording-new-owner-ideas).
+3. Run the [anatomy study](studies/ANATOMY.md): extensive research into everything a project with this goal needs. It only reads, so it needs no permission. It sets the areas and parts of [PROJECT_MAP.html](PROJECT_MAP.html).
+4. Go through the result with the owner: they mark what is out of plan and add what is missing.
+5. Set the targets in [FEATURE_MATRIX.md](FEATURE_MATRIX.md), and the commands under [How work gets done](AGENTS.md#how-work-gets-done) once something runs.
+6. Record each idea the owner gives as a feature: [Recording new owner ideas](features/README.md#recording-new-owner-ideas).
 
 ## Waiting for the owner
 
