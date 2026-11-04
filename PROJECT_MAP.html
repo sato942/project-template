@@ -335,11 +335,12 @@ marker#flow-seen path, marker#flow-hot path { fill: var(--accent); }
   .stage-files { padding: 0 11px 9px; }
 }
 
-/* Priority list */
+/* Gaps left */
 .prio-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px; }
 .prio-list li a { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; align-items: center; height: 100%; padding: 12px 14px; background: var(--surface); border: 1px solid var(--hair); border-radius: 13px; color: var(--ink); text-decoration: none; transition: border-color .15s, transform .15s, box-shadow .15s; }
 .prio-list li a:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
 .prio-list .prio { grid-row: 1 / 3; }
+.prio-list li a.no-rank { grid-template-columns: minmax(0, 1fr); }
 .prio-list .pl-name { font-weight: 600; font-size: 14px; line-height: 1.3; }
 .prio-list .pl-sub { font-size: 12px; color: var(--muted); }
 .prio-list .pl-sub b { font: 600 11px var(--mono); color: var(--ink-2); }
@@ -523,6 +524,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
   .area-head { padding: 16px; }
   .prio-list { grid-template-columns: minmax(0, 1fr); }
   .dec { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "id when" "main main"; padding: 12px 16px 12px 18px; }
+  .dec-when { white-space: normal; max-width: 14em; }
+  .dec-folds > details { min-width: 0; }
   .dec-group-head { flex-wrap: wrap; }
   .dec, .dec-group { scroll-margin-top: 12px; }
   .arch, .around-inner { grid-template-columns: minmax(0, 1fr); }
@@ -603,7 +606,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
           <li><a href="#dec-open">Still open</a>, by what settles it: yours come first, and most of the rest need a measurement or a study before they reach you.</li>
           <li><a href="#ideas">Ideas bank</a>: good ideas from outside sources, with what comes next for each.</li>
           <li><a href="#codes">Codes</a>: what each spec file’s word stands for.</li>
-          <li><a href="#stages">How work moves</a>, then the <a href="#areas">parts</a> and the <a href="#priorities">gaps that matter most</a>: what the product still has no spec for.</li>
+          <li><a href="#stages">How work moves</a>, then the <a href="#areas">parts</a> and the <a href="#priorities">gaps left</a>: what the product still has no spec for.</li>
         </ol>
       </div>
     </section>
@@ -645,8 +648,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
 
     <section class="block" id="priorities" aria-labelledby="prio-title">
       <div class="block-head">
-        <h2 id="prio-title">Gaps that matter most</h2>
-        <p>A Proposed ranking on the main values, from a study. Nothing here is decided: whether each gap belongs in the product is the owner’s call, after its own research.</p>
+        <h2 id="prio-title">Gaps left</h2>
+        <p>Every part that no decision or spec file covers yet. Those a study ranked come first, by its Proposed ranking on the main values, then the rest in area order. Whether each belongs in the product is the owner’s call, after its own research.</p>
       </div>
       <ol class="prio-list" id="prio-list"></ol>
     </section>
@@ -712,7 +715,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
     <section class="block" id="sources" aria-labelledby="sources-title">
       <div class="block-head">
         <h2 id="sources-title">Sources</h2>
-        <p>The codes in “Seen in”. Each source names parts, and a study’s research log has every query and URL. A source’s own measurements are evidence about its authors’ tasks, never this project’s measurements.</p>
+        <p>The codes in “Seen in” and in the ideas bank, numbered in the order the studies added them. The last column counts the parts that name a source; one with 0 backs a study’s finding, a decision or a banked idea instead. Each study’s research log has every query and URL. A source’s own measurements are evidence about its authors’ tasks, never this project’s measurements.</p>
       </div>
       <div class="table-wrap">
         <table>
@@ -728,7 +731,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
         <div class="card">
           <h3>How to read it</h3>
           <ul class="status-legend" id="status-legend"></ul>
-          <p>“Covered by” links to the records that cover a part; hover over one for its title. “Decisions” names the owner decisions (green), the proposed ones awaiting review (blue) and the ones still open (amber) that bear on the part. “Seen in” names the sources that describe it. A mark says what this repository records, not what is built. The map decides nothing and changes no requirement.</p>
+          <p>“Covered by” links to the records that cover a part; hover over one for its title. “In spec” lists every requirement, question and validation of a spec file that the part holds, where “X to Y” names every ID that file defines between the two; every spec ID sits under at least one part, and each spec file’s header lists the same parts. “Decisions” names the owner decisions (green), the proposed ones awaiting review (blue) and the ones still open (amber) that bear on the part. “Seen in” names the sources that describe it. A mark says what this repository records, not what is built. The map decides nothing and changes no requirement.</p>
         </div>
         <div class="card">
           <h3>Keeping it current</h3>
@@ -736,16 +739,17 @@ tr.flash, tr:target { background: var(--accent-soft); }
             <li><code>project</code> and <code>repo</code> name the project and its GitHub repository, as owner/name; without a repository, the page’s links open files in this folder. <code>overview</code> holds the overview’s labels. <code>notice</code> is a line under the title with a link (<code>text</code>, <code>label</code>, <code>path</code>), for as long as it is true. <code>origin</code> names the study the map comes from (<code>label</code>, <code>path</code>).</li>
             <li>The areas and parts come from the <a class="file-link" data-path="studies/ANATOMY.md" target="_blank" rel="noopener">anatomy study</a>, never from a preset list. Later studies add to them.</li>
             <li>Edit the data block at the top of this file, <code>project-map-data</code>. It is JSON, with one part per line; the page redraws every count, bar and diagram from it.</li>
-            <li>A part has an <code>id</code>, <code>name</code>, <code>meaning</code>, <code>status</code> (Specified, Recorded, Gap or Out of plan), <code>refs</code> and <code>seen</code>, and may have a <code>note</code> and a <code>priority</code> (Gaps only).</li>
+            <li>A part has an <code>id</code>, <code>name</code>, <code>meaning</code>, <code>status</code> (Specified, Recorded, Gap or Out of plan), <code>refs</code> and <code>seen</code>, and may have a <code>note</code>, a <code>priority</code> (Gaps only) and <code>items</code>, the spec IDs it holds, with “X to Y” for every ID a spec file defines between the two.</li>
             <li>Each key in <code>refs</code> must be in the <code>refs</code> table, which holds its <code>title</code> and <code>href</code>; each code in <code>seen</code> must be in <code>sources</code>. A source has a <code>title</code>, a <code>kind</code>, <code>read</code> (how it was read) and may have <code>segments</code>: the pieces of its title, each with its <code>text</code> and, for a link, its <code>url</code>.</li>
             <li>New part: the next number in its area. IDs are never renumbered or reused. A part that no longer applies keeps its line, with <code>"status": "Withdrawn: &lt;date&gt;, &lt;reason&gt;"</code>; it leaves the counts.</li>
             <li>New area: the next A number, with <code>place</code> as [row, first column, end column] in the overview, or no <code>place</code> to sit with the areas around the product. Row 2 sits above the blue box and rows from 4 inside it; [4, 1, 5] spans its full width, and [4, 5, 6] sits outside it on the right. Add its links to <code>edges</code>: each names two of the areas, <code>user</code> and <code>outside</code>, and may add <code>both</code> or <code>dashed</code>.</li>
-            <li>A decision in <code>decisions</code> has an <code>id</code>, <code>title</code>, <code>status</code> (Decided by the owner, Proposed for the owner’s review, or Open), <code>when</code>, <code>specs</code> (each spec key with its requirement IDs or § sections; empty while no spec file carries it) and <code>parts</code>; a decision with no parts shows under Project and process. It may have a <code>study</code>, a <code>record</code> and a <code>recommended</code> option, which Proposed needs. An Open one has <code>settled_by</code> (owner, review, measurement, study or other) and a <code>note</code> saying what it blocks or what settles it. A partly decided one has <code>open_part</code>. <code>flag</code> marks something the owner may want to reopen, and <code>also</code> names another label for it. When the owner agrees, set Decided and the owner’s time.</li>
+            <li>A decision in <code>decisions</code> has an <code>id</code>, <code>title</code>, <code>status</code> (Decided by the owner, Proposed for the owner’s review, or Open), <code>when</code>, <code>specs</code> (each spec key with its requirement IDs or § sections, or an empty list for the whole file; empty while no spec file carries it) and <code>parts</code>; a decision with no parts shows under Project and process. It may have a <code>study</code>, a <code>record</code> and a <code>recommended</code> option, which Proposed needs. An Open one has <code>settled_by</code> (owner, review, measurement, study or other) and a <code>note</code> saying what it blocks or what settles it. A partly decided one has <code>open_part</code>. <code>flag</code> marks something the owner may want to reopen, and <code>also</code> names another label for it. When the owner agrees, set Decided and the owner’s time.</li>
             <li>An idea in <code>ideas</code> has an <code>id</code> (IDEA-NNN, never renumbered or reused), <code>name</code>, <code>what</code>, <code>sources</code> (S codes or a plain name), <code>seen</code> (a study’s key in <code>refs</code>, then the finding), <code>evidence</code> (Measured, Vendor’s test, Claim or Design only), <code>gives</code> (Success, Speed, Latency, Cost, Safety, Use), <code>next</code> (Owner, Measure, Study, Carry, Spec, Carried or Not for us), and <code>settle</code>, with <code>specs</code> and <code>parts</code> where they exist. A study of an outside source adds its good ideas here; when an idea moves, change its <code>next</code> and <code>settle</code>. <code>idea_from</code> names the sources for the filter.</li>
+            <li>Map and spec parity: every spec ID sits in some part’s <code>items</code>; a part refers to the spec files whose IDs it holds, and each spec file’s Map parts row lists those parts; a decision names the same IDs as its row in each spec file’s decisions table. The whole rule is in <a class="file-link" data-path="specs/README.md" target="_blank" rel="noopener">specs/README.md</a>, and the project check tests it.</li>
             <li>The Codes table is drawn from the spec files’ entries in <code>refs</code>, each keyed by its code. A new spec file’s code follows the standard and appears by itself.</li>
             <li>“How work moves” is drawn from <code>stages</code>, <code>stage_rails</code>, <code>stage_now</code>, <code>loops</code> and <code>loop_rules</code>. A loop has an <code>id</code>, <code>from</code> and <code>to</code> (stage IDs, later to earlier), <code>seen</code> (true once it has happened on this project), <code>when</code>, <code>example</code> and <code>refs</code>. The rule itself is in AGENTS.md.</li>
             <li>Add a line to <code>changelog</code> and set <code>updated</code>, with the project’s time.</li>
-            <li>Run the project check, <code>tools/check_project.py</code>. It validates this data block: unique parts, known statuses, references that resolve, a link to every feature note and spec file, a row in <code>decisions</code> for every open question in a spec file, and each idea’s values, references, spec IDs and parts.</li>
+            <li>Run the project check, <code>tools/check_project.py</code>. It validates this data block: unique parts, known statuses, references that resolve, a link to every feature note and spec file, a row in <code>decisions</code> for every open question in a spec file, each idea’s values, references, spec IDs and parts, map and spec parity, and three rules on wording: a Decided title doesn’t start “Whether”, no note or idea calls a Decided question open or names its recommended option, and a part’s note names only decisions that list that part.</li>
           </ol>
         </div>
         <div class="card wide">
@@ -766,8 +770,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
   const data = JSON.parse(document.getElementById('project-map-data').textContent.replace(/\{\{PROJECT\}\}/g, 'New project').replace(/\{\{NOW\}\}/g, 'at the start').replace(/\{\{REPO\}\}/g, ''));
   const STATUSES = [
     { key: 'Specified', cls: 'spec', blurb: 'A spec file covers it in detail.' },
-    { key: 'Recorded', cls: 'rec', blurb: 'A rule, decision or feature note records it; no spec file yet.' },
-    { key: 'Gap', cls: 'gap', blurb: 'Part of the whole product; nothing here covers it yet.' },
+    { key: 'Recorded', cls: 'rec', blurb: 'A rule, decision or feature note records it; no spec file covers it in full yet.' },
+    { key: 'Gap', cls: 'gap', blurb: 'Part of the whole product; no decision or spec file covers it yet, though a study may mention it.' },
     { key: 'Out of plan', cls: 'out', blurb: 'Excluded by an owner decision or an invariant; listed so it is not forgotten.' },
   ];
   const BY = new Map(STATUSES.map(s => [s.key, s]));
@@ -831,8 +835,17 @@ tr.flash, tr:target { background: var(--accent-soft); }
   for (const p of parts) p._dec = decisions.filter(x => (x.parts || []).includes(p.id));
   for (const x of decisions) x._text = [x.id, x.title, x.status, x.when, x.recommended, x.note, x.open_part, x.flag, x.also, x.study, x.record,
     ...Object.entries(x.specs || {}).flat(2), ...(x.parts || [])].filter(Boolean).join('\n').toLowerCase();
+  // “X-001 to X-009” in a part’s items, as every ID between, so a search for one finds it.
+  function expandItem(i) {
+    const m = /^([A-Z]+-)([QV]?)(\d+) to \1\2(\d+)$/.exec(i);
+    if (!m) return [i];
+    const out = [];
+    for (let n = +m[3]; n <= +m[4]; n++) out.push(m[1] + m[2] + (m[2] ? String(n) : String(n).padStart(3, '0')));
+    return out;
+  }
   for (const p of parts) {
     p._text = [p.id, p.name, p.meaning, p.status, p.note || '', p.area.name, p.area.id,
+      ...(p.items || []).flatMap(expandItem),
       ...(p.refs || []).flatMap(r => [r, (data.refs[r] || {}).title || '']),
       ...(p.seen || []).flatMap(c => [c, (data.sources[c] || {}).title || '']),
       ...p._dec.flatMap(x => [x.id, x.title])].join('\n').toLowerCase();
@@ -1110,14 +1123,14 @@ tr.flash, tr:target { background: var(--accent-soft); }
     $('#empty').textContent = 'No parts yet. The anatomy study lists them.';
   }
 
-  // ---- Priority list
-  parts.filter(p => p.priority).sort((x, y) => x.priority - y.priority || x.id.localeCompare(y.id, undefined, { numeric: true })).forEach(p => {
-    $('#prio-list').append(h('li', null, h('a', { href: '#' + p.id, onclick: e => { e.preventDefault(); goTo(p.id); } },
-      h('span', { class: 'prio' }, 'P' + p.priority),
+  // ---- Gaps left: those a study ranked first, then the rest in area order
+  parts.filter(p => p.status === 'Gap').sort((x, y) => (x.priority || 99) - (y.priority || 99)).forEach(p => {
+    $('#prio-list').append(h('li', null, h('a', { class: p.priority ? null : 'no-rank', href: '#' + p.id, onclick: e => { e.preventDefault(); goTo(p.id); } },
+      p.priority ? h('span', { class: 'prio' }, 'P' + p.priority) : null,
       h('span', { class: 'pl-name' }, p.name),
       h('span', { class: 'pl-sub' }, h('b', null, p.id), ' · ', p.area.name))));
   });
-  if (!parts.some(p => p.priority)) $('#prio-list').replaceWith(h('p', { class: 'dec-empty' }, 'No gap has a priority yet. A study ranks them on the main values.'));
+  if (!parts.some(p => p.status === 'Gap')) $('#prio-list').replaceWith(h('p', { class: 'dec-empty' }, parts.length ? 'No gap is left: a decision or a spec file covers every part.' : 'No parts yet. The anatomy study lists them.'));
 
   // ---- Decisions
   const partLink = id => h('a', { class: 'pchip', href: '#' + id, onclick: e => { e.preventDefault(); goTo(id); } }, id);
@@ -1128,7 +1141,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
   }
   function labelled(s) {
     const i = s.indexOf(': ');
-    return i < 0 ? s : [h('b', null, s.slice(0, i + 2)), s.slice(i + 2)];
+    return i < 0 || i > 40 ? s : [h('b', null, s.slice(0, i + 2)), s.slice(i + 2)];
   }
   function decRow(x) {
     const specs = Object.entries(x.specs || {}).map(([key, ids]) => h('span', { class: 'spec-ids' }, refChip(key),
@@ -1205,7 +1218,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
     const ref = data.refs[code];
     const file = ref.href.split('/').pop();
     const nDec = decisions.filter(x => code in (x.specs || {})).length;
-    const nPart = parts.filter(p => (p.refs || []).some(r => r === code || r.startsWith(code + ' '))).length;
+    const nPart = parts.filter(p => (p.items || []).some(i => i.startsWith(code + '-'))).length;
     $('#code-body').append(h('tr', { id: 'code-' + code },
       h('td', null, code),
       h('td', null, h('a', { 'data-path': ref.href, href: fileHref(ref.href), target: '_blank', rel: 'noopener' }, file)),
@@ -1232,6 +1245,13 @@ tr.flash, tr:target { background: var(--accent-soft); }
       [x.id + ' · ' + decTag(x).toLowerCase(), x.title, x.when]));
     const prio = p.priority ? withTip(h('span', { class: 'prio', tabindex: '0' }, 'P' + p.priority),
       [`Proposed priority ${p.priority}`, 'A ranking on the main values, from a study. Not decided.']) : null;
+    const byCode = new Map();
+    for (const i of p.items || []) {
+      const code = i.split('-')[0];
+      if (!byCode.has(code)) byCode.set(code, []);
+      byCode.get(code).push(i);
+    }
+    const items = [...byCode].map(([code, ids]) => h('span', { class: 'spec-ids' }, refChip(code), ids.map(i => h('span', { class: 'req' }, i))));
     const li = h('li', { class: 'part st-' + (st ? st.cls : 'wd'), id: p.id },
       h('a', { class: 'pid', href: '#' + p.id }, p.id),
       h('div', { class: 'pmain' },
@@ -1239,6 +1259,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
         h('p', { class: 'pmeaning' }, p.meaning),
         h('div', { class: 'pfoot' },
           h('div', { class: 'pgroup' }, h('span', { class: 'plabel' }, 'Covered by'), refs.length ? refs : h('span', { class: 'none' }, 'Nothing yet')),
+          items.length ? h('div', { class: 'pgroup' }, h('span', { class: 'plabel' }, 'In spec'), items) : null,
           h('div', { class: 'pgroup' }, h('span', { class: 'plabel' }, 'Seen in'), seen.length ? seen : h('span', { class: 'none' }, 'No outside source yet')),
           decs.length ? h('div', { class: 'pgroup' }, h('span', { class: 'plabel' }, 'Decisions'), decs) : null),
         p.note ? h('p', { class: 'pnote' }, p.note) : null),
@@ -1271,12 +1292,12 @@ tr.flash, tr:target { background: var(--accent-soft); }
   // ---- Ideas bank
   const ideas = data.ideas || [];
   const IDEA_NEXT = [
-    ['Owner', 'Waits for the owner', 'The owner’s word comes first.', 'Owner'],
+    ['Owner', 'The owner’s word first', 'Each says what would bring it to the owner.', 'Owner'],
     ['Measure', 'Measure it', 'Each needs a paired measurement. All UNEXECUTED.', 'Measure'],
     ['Study', 'Study it first', 'No option goes to the owner before its research.', 'Study'],
     ['Carry', 'Ready to write into a spec file', 'A spec file exists for it. It goes in as Proposed, on the owner’s word.', 'Ready to carry'],
-    ['Spec', 'When its spec file is written', 'Nothing holds it yet. Use it as the checklist then.', 'Needs a spec'],
-    ['Carried', 'Already in a spec file', 'Written in as Proposed, so it is not lost.', 'In a spec'],
+    ['Spec', 'When its spec is written or next changed', 'Nothing to do now. Use it as the checklist then.', 'For a spec'],
+    ['Carried', 'Already written in', 'In a spec file or a feature note, so it is not lost.', 'Written in'],
     ['Not for us', 'Not for us', 'Rejected on purpose, with the reason, so no one proposes it again.', 'Not for us'],
   ];
   const IDEA_TAG = new Map(IDEA_NEXT.map(n => [n[0], n[3]]));
@@ -1297,7 +1318,7 @@ tr.flash, tr:target { background: var(--accent-soft); }
       ? withTip(h('a', { class: 'pchip', href: '#src-' + s, onclick: e => { e.preventDefault(); goTo('src-' + s); } }, s), [s, data.sources[s].title])
       : h('span', { class: 'req' }, s));
     const seen = x.seen ? h('span', { class: 'spec-ids' }, refChip(x.seen[0]), x.seen[1] ? h('span', { class: 'req' }, x.seen[1]) : null) : null;
-    x._el = h('li', { class: 'dec idea' + (x.next === 'Owner' ? ' dec-proposed' : x.next === 'Carried' ? ' idea-done' : x.next === 'Not for us' ? ' idea-no' : ''), id: x.id },
+    x._el = h('li', { class: 'dec idea' + (x.next === 'Carried' ? ' idea-done' : x.next === 'Not for us' ? ' idea-no' : ''), id: x.id },
       h('span', { class: 'dec-id' }, x.id),
       h('div', { class: 'dec-main' },
         h('p', { class: 'dec-title' }, x.name),
@@ -1590,6 +1611,8 @@ tr.flash, tr:target { background: var(--accent-soft); }
   setBar();
   applyTheme();
   applyLinks();
+  $('#prio').hidden = !parts.some(p => p.priority);
+  $('#review').hidden = !parts.some(needsReview);
   update();
   drawEdges();
   drawFlow();

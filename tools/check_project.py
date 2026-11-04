@@ -9,7 +9,9 @@ or a pattern in backticks; every path pattern in those tables matches a file; AG
 specs/README.md and a STATE.md row whose version and counts match; each feature note is in the register and the feature matrix, and the
 register names the next unused ID; each Proposed decision in the map is under "Waiting for the owner"; every open question in a spec
 file is in the map's decisions; the map's ideas bank is sound (unique IDs, known values, and references, spec IDs and parts that exist);
-no template placeholder is left; the hook is on.
+no Decided title in the map starts "Whether", no note or idea calls a Decided question open or names its recommended option, and a
+part's note names only decisions that list that part; the map and the spec files are in parity, as specs/README.md "Map and spec
+parity" states it; no template placeholder is left; the hook is on.
 
 A code folder is one the file map links with a trailing slash, as [src/](src/) does. The check does not read inside it. It reads only
 files git tracks or would track, so what .gitignore names, such as node_modules, never reaches it.
@@ -251,6 +253,118 @@ except (KeyError, TypeError, AttributeError) as e:
     errors.append(f'the data block in {MAP} has the wrong shape near {e!r}: "Keeping it current" on the page lists each field')
 
 
+def id_kind(i):
+    code, _, n = i.partition('-')
+    return code, n[0] if n[0] in 'QV' else 'R', int(n.lstrip('QV'))
+
+
+def ids_in(text, who):
+    # The spec IDs a text names. A range such as X-001 to X-009 names every ID of that kind its file defines between the two.
+    found = {i for i in re.findall(r'\b(' + SPEC_ID + r')\b', text) if i.split('-')[0] in prefix_owner}
+    for m in re.finditer(r'\b(' + SPEC_ID + r') to (?:([A-Z]{3,8})-)?(\d{3}|Q\d+|V\d+)\b', text):
+        a = id_kind(m.group(1))
+        b = id_kind(f'{m.group(2) or a[0]}-{m.group(3)}')
+        if a[0] not in prefix_owner:
+            continue
+        if a[:2] != b[:2]:
+            errors.append(f'{who} names the range {m.group(0)!r}, which crosses spec files or kinds of ID')
+        else:
+            found |= {i for i in defined if id_kind(i)[:2] == a[:2] and a[2] <= id_kind(i)[2] <= b[2]}
+    return found
+
+
+code_of_file = {name: code for code, name in prefix_owner.items()}
+try:
+    # Wording the IDs cannot show: a Decided title says what was chosen; no note or idea says a Decided question stays open or
+    # names its recommended option; a part's note names only decisions that list that part.
+    by_id = {x['id']: x for x in data.get('decisions', [])}
+    decided = sorted((i for i, x in by_id.items() if x.get('status') == 'Decided'), key=len, reverse=True)
+    errors.extend(f'map decision {i} is Decided, but its title starts with "Whether"' for i in decided if by_id[i].get('title', '').startswith('Whether'))
+    part_notes = [(p['id'], p.get('note') or '') for area in data.get('areas', []) for p in area['parts']]
+    wording = part_notes + [(x['id'], x.get('note') or '') for x in by_id.values()] + [(x.get('id'), x.get('settle') or '') for x in ideas]
+    if decided:
+        stale = re.compile('(' + '|'.join(map(re.escape, decided)) + r")(?:’s|'s)? (?:stays? open|recommended (?:option|answer))")
+        errors.extend(f'in the map, {who} says {m.group(0)!r}, but {m.group(1)} is Decided' for who, text in wording for m in stale.finditer(text))
+    if by_id:
+        # Longest ID first, so one ID is never read as a shorter one inside it.
+        cited = re.compile(r'(?<![\w-])(' + '|'.join(map(re.escape, sorted(by_id, key=len, reverse=True))) + r')(?![\w-])')
+        errors.extend(f'map part {who} names {i} in its note, but {i} does not list {who} in its parts' for who, text in part_notes
+                      for i in sorted({m.group(1) for m in cited.finditer(text)}) if who not in by_id[i].get('parts', []))
+
+    # Map and spec parity, the rule in specs/README.md "Map and spec parity". Rule 1, parts: every spec ID sits in a part's items; a
+    # part refers to a spec file exactly when it holds that file's IDs, and its note names only IDs it holds; each spec file's Map parts
+    # row lists the parts holding its IDs.
+    code_of_href = {f'specs/{name}': code for code, name in prefix_owner.items()}
+    spec_code = lambda key: code_of_href.get(refs.get(key, {}).get('href', '').partition('#')[0])
+    part_key = lambda p: [int(n) for n in re.findall(r'\d+', p)]
+    holders = {}  # spec ID -> the parts whose items hold it
+    for area in data.get('areas', []):
+        for part in area['parts']:
+            pid, items = part['id'], set()
+            for item in part.get('items', []):
+                got = ids_in(item, f'map part {pid}')
+                if not got:
+                    errors.append(f'map part {pid} holds {item!r}, which names no spec ID')
+                items |= got
+            errors.extend(f'map part {pid} holds {i}, which no spec file defines' for i in sorted(items - set(defined)))
+            for i in items:
+                holders.setdefault(i, []).append(pid)
+            refers, held = {spec_code(r) for r in part.get('refs', [])} - {None}, {i.split('-')[0] for i in items}
+            if refers != held:
+                errors.append(f'map part {pid} refers to the spec files of {sorted(refers)} but holds IDs of {sorted(held)}')
+            errors.extend(f'map part {pid} names {i} in its note but does not hold it' for i in sorted(ids_in(part.get('note') or '', f'map part {pid}') - items))
+    unplaced = sorted(set(defined) - set(holders))
+    if unplaced:
+        errors.append(f'spec IDs under no map part: {unplaced}')
+
+    # Rule 2, decisions: each row of a decisions table starts with a map decision's ID; the decision names that file, and both name
+    # the same IDs of it, with "Whole file" an empty list in the map. Each Decided decision naming a spec file has a row there, and
+    # its parts hold every ID it names.
+    rows = {}  # (map decision, code) -> the last cell of each of its rows in that file
+    for code, name in prefix_owner.items():
+        text = (root / 'specs' / name).read_text(encoding='utf-8', errors='replace')
+        head = dict(re.findall(r'^\| \*\*([^*]+)\*\* \| (.*) \|$', text.split('\n## ', 1)[0], flags=re.M))
+        listed = re.findall(r'\[(A\d+\.\d+)\]\(\.\./PROJECT_MAP\.html#\1\)', head.get('Map parts', ''))
+        holding = sorted({p for i, ps in holders.items() if i.split('-')[0] == code for p in ps}, key=part_key)
+        if 'Map parts' not in head:
+            errors.append(f'{name} has no Map parts row in its header')
+        elif listed != holding:
+            errors.append(f'{name} lists map parts {listed} in its header, but the parts holding its IDs are {holding}')
+        table = re.search(r'^## (?:\d+\. )?Decisions applied.*?$(.*?)(?=^## |\Z)', text, flags=re.M | re.S)
+        for line in (table.group(1) if table else '').splitlines():
+            cells = [c.strip() for c in re.split(r'(?<!\\)\|', line.strip().strip('|'))]
+            if not line.startswith('|') or re.fullmatch(r'[-: |]+', line) or cells[0] in ('ID', ''):
+                continue
+            if cells[0] not in by_id:
+                errors.append(f'{name}: the decisions row {cells[0]!r} does not start with a map decision ID')
+            else:
+                rows.setdefault((cells[0], code), []).append(cells[-1])
+    for (x, code), lasts in rows.items():
+        name, mine = prefix_owner[code], {spec_code(k): ids for k, ids in by_id[x].get('specs', {}).items()}
+        if code not in mine:
+            errors.append(f'{name} has a row for map decision {x}, which does not name {code}')
+        elif 'Whole file' in lasts:
+            if mine[code]:
+                errors.append(f'{name} applies map decision {x} to the whole file, so its {code} list in the map must be empty')
+        else:
+            named = {i for last in lasts for i in ids_in(last, f'{name}: the decisions row {x!r}') if i.split('-')[0] == code}
+            named |= {'§' + n for last in lasts for n in re.findall(r'§(\d+(?:\.\d+)?)', last)}
+            if named - {x} != set(mine[code]) - {x}:
+                errors.append(f'map decision {x} and its rows in {name} name different IDs: rows only {sorted(named - set(mine[code]) - {x})}, '
+                              f'map only {sorted(set(mine[code]) - named - {x})}')
+    for x in by_id.values():
+        for key, ids in x.get('specs', {}).items():
+            for i in ids:
+                missing = sorted(set(holders.get(i, [])) - set(x.get('parts', [])), key=part_key)
+                if missing:
+                    errors.append(f'map decision {x["id"]} names {i} but not the parts holding it: {missing}')
+            code = spec_code(key)
+            if code and x.get('status') == 'Decided' and (x['id'], code) not in rows:
+                errors.append(f'map decision {x["id"]} is Decided, but {prefix_owner[code]} has no row for it in its decisions table')
+except (KeyError, TypeError, AttributeError) as e:
+    errors.append(f'the data block in {MAP} has the wrong shape near {e!r}: "Keeping it current" on the page lists each field')
+
+
 # Upkeep: every document is mapped, and the facts kept in two places agree.
 def links_from(rel):
     path = root / rel
@@ -310,6 +424,9 @@ for spec_file in spec_files:
               'validations': ((re.search(r' of (\d+)', cells[4]) or [0, ''])[1], count(r'V\d+')),
               'implemented out of': ((re.search(r' of (\d+)', cells[5]) or [0, ''])[1], count(r'\d{3}'))}
     errors.extend(f'STATE.md says {name} has {what} {said}; the file has {real}' for what, (said, real) in wanted.items() if said != real)
+    status = cells[1].partition(', ')[2]  # parity rule 5: the map's reference to the file carries the status this row gives it
+    if name in code_of_file and not refs.get(code_of_file[name], {}).get('title', '').endswith(', ' + status):
+        errors.append(f"the map's reference {code_of_file[name]!r} to {name} does not end with its status in STATE.md, {status!r}")
 
 register = read('features/README.md')
 matrix = read('FEATURE_MATRIX.md')

@@ -6,7 +6,8 @@ Copy this file to `<feature>.spec.md`, replace `CODE` with the file's [code](REA
 |---|---|
 | **Spec file** | `specs/<feature>.spec.md` |
 | **Code** | `CODE` (requirements `CODE-NNN`, open questions `CODE-Qn`, validations `CODE-Vn`) |
-| **Features** | The feature notes it covers, and the map parts it touches |
+| **Features** | The feature notes it covers |
+| **Map parts** | The map parts whose `items` hold this file's IDs, each as a link such as `[A1.2](../PROJECT_MAP.html#A1.2)` ([parity](README.md#map-and-spec-parity)) |
 | **Version** | 0.1, the date ({{TIMEZONE}}) |
 | **Spec status** | Draft. Everything stays Proposed until the owner reviews the file |
 | **Implementation** | Not started. Every validation is `UNEXECUTED` |
@@ -30,6 +31,8 @@ One or two sentences on what this file specifies.
 **Units.** The units and encodings the numbers below use.
 
 ## 3. Decisions applied
+
+Each row starts with the map decision's ID, and its last cell lists the IDs it applies to, or says `Whole file` ([parity](README.md#map-and-spec-parity)).
 
 | ID | Decision | Owner, date and time | Requirements |
 |---|---|---|---|
