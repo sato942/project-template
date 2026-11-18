@@ -120,6 +120,8 @@ Follow build → demonstrate → deliver. The goal is working software delivered
 - Run the actual feature through its UI, CLI, API, or other real entry point.
 - Show what you tried, what happened, and any limitations.
 - Add automated tests only when they provide clear value. There is no mandatory test count or coverage target.
+- A test earns its place when it names the behavior it protects and a believable bug would make it fail. Keep one strong test for each behavior, not several that repeat it.
+- When a change makes a test redundant, or a test only mirrors the code, removing it is part of the change. Never remove the only test that guards a behavior to make a failure go away.
 - Report honestly when something could not be verified.
 - If the requested behavior does not work, say so first. Never present it as working.
 
