@@ -63,6 +63,7 @@ Leave out a part that truly does not apply, and scale the detail to the feature:
 - update its row in STATE.md's progress table;
 - update [FEATURE_MATRIX.md](../FEATURE_MATRIX.md) if a feature changes on a target;
 - update its parts' `items` and its decisions in [PROJECT_MAP.html](../PROJECT_MAP.html), so the two stay in [parity](#map-and-spec-parity) (working rule 11);
+- run `python -I tools/sync_project.py .`, which writes the file's version and counts into STATE.md, its Map parts row from the map, and its status onto the map's reference;
 - run the project check (`python -I tools/check_project.py .`), which also checks the spec IDs, this table and the parity below.
 
 ## Map and spec parity
@@ -75,7 +76,7 @@ The map and the spec files say the same things, in both directions, with no extr
 4. **Words.** A part's note and a decision's title say nothing the spec files they name do not, and their numbers and dates match. A note names a spec ID only if its part holds it. The owner's words and a study's evidence may also be quoted there, with links.
 5. **Status.** A spec file's reference in the map has a title ending in the status its row in [STATE.md](../STATE.md) gives it, such as `, Draft`.
 
-The [project check](../tools/check_project.py) fails when rule 1, 2 or 5 breaks, or a question has no decision. The words of rule 4, and whether a question's status matches, still need a person.
+The [project check](../tools/check_project.py) fails when rule 1, 2 or 5 breaks, or a question has no decision. The words of rule 4, and whether a question's status matches, still need a person. [tools/sync_project.py](../tools/sync_project.py) writes the Map parts row of rule 1 and the status of rule 5; which part holds an ID, and which IDs a decision applies to, are choices it leaves alone.
 
 Only the map holds parts and decisions on features with no spec file yet, the ideas bank and its own history. Requirement text stays in the spec files, one home for each fact; the map names IDs and links to them. A change to either side changes the other in the same change.
 

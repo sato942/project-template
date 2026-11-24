@@ -43,6 +43,7 @@ The map starts empty on purpose. Its areas and parts come from that research and
 | [FEATURE_MATRIX.md](FEATURE_MATRIX.md) | Every feature's status on every target |
 | [LEGAL_FLAGS.md](LEGAL_FLAGS.md) | License and terms flags, for a legal review before release |
 | [tools/check_project.py](tools/check_project.py) | One command that finds stale or unmapped files. The [pre-commit hook](tools/hooks/pre-commit) runs it |
+| [tools/sync_project.py](tools/sync_project.py) | One command that writes the facts kept in two places, such as counts and statuses, from their one home |
 
 ## How work moves
 

@@ -2,7 +2,7 @@
 It tests facts in files, never whether work is finished: it reads no code and runs no tests.
 Usage, from the clone: python -I tools/check_project.py .        The pre-commit hook adds --staged.
 
-Always: relative links and anchors resolve; spec IDs and codes are defined once; every spec ID STATE.md names exists; the map's data
+Always: relative links and anchors resolve, and none leaves the project; spec IDs and codes are defined once; every spec ID STATE.md names exists; the map's data
 block is sound (parts, references, edges, stages, loops, decisions, a reference to every feature note and spec file); every .md and
 .html file is reachable from AGENTS.md through links; every top-level file or folder is mapped in Main files or the file map, by a link
 or a pattern in backticks; every path pattern in those tables matches a file; AGENTS.md stays within 32 KiB; each spec file has a row in
@@ -89,8 +89,10 @@ def anchors(text):
 
 def resolves(href, where):
     target, _, anchor = href.partition('#')
-    dest = root / target
-    if not target or not dest.exists():
+    dest = (root / target).resolve()
+    if target and not dest.is_relative_to(root):
+        errors.append(f'{href} in {where} leaves the project: a project links only to its own files')
+    elif not target or not dest.exists():
         errors.append(f'missing target {href} in {where}')
     elif anchor and dest.suffix == '.md' and anchor not in anchors(dest.read_text(encoding='utf-8', errors='replace')):
         errors.append(f'missing anchor {href} in {where}')
@@ -118,7 +120,9 @@ for rel in docs:
         checked += 1
         target, _, anchor = href.partition('#')
         dest = (file.parent / target).resolve() if target else file
-        if not dest.exists():
+        if not dest.is_relative_to(root):
+            errors.append(f'{href} in {rel} leaves the project: a project links only to its own files')
+        elif not dest.exists():
             errors.append(f'missing target {href} in {rel}')
         elif anchor and dest.suffix == '.md' and anchor not in anchors(dest.read_text(encoding='utf-8', errors='replace')):
             errors.append(f'missing anchor {href} in {rel}')
