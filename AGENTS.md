@@ -8,6 +8,18 @@ Read this file before any work in this repository. Owner: `{{OWNER}}`. Use {{TIM
 
 This file holds the rules for every task and a map of where everything else lives.
 
+## What a project is
+
+The project is one self-contained thing, and the rules below follow from that. The rule numbers are those of [Keeping the project current](#keeping-the-project-current).
+
+- **It has its own interface.** The owner reads it through [PROJECT_MAP.html](PROJECT_MAP.html) and an agent through this file; everything else sits behind those two.
+- **It holds each fact once.** A fact has one home, and the few copies kept for reading are written by a command, never typed (rule 1).
+- **It changes through known operations.** [Coupled files](#coupled-files) says what moves together for each kind of change.
+- **It is checked after every change,** by the project check at every commit (rule 6).
+- **It depends on nothing outside itself,** and shares nothing with another project (rule 3).
+
+Where no rule covers a case, choose what keeps these five true.
+
 ## Main files
 
 Six files or folders are the project's cornerstones. The [file map](#file-map) lists everything else, which supports these. [Authority](#authority) says which one wins when they disagree.
@@ -169,9 +181,9 @@ Follow build → demonstrate → deliver. The goal is working software delivered
 
 The goal is that the owner never has to revisit this file because the files are stale. Keeping files current is part of every change, done without being asked.
 
-1. **One home for each fact.** A count, status, version, list or decision lives in one file, and other files link to it. Do not copy it. Where a number can be computed, do not write it down.
+1. **One home for each fact.** A count, status, version, list or decision lives in one file, and other files link to it. Do not copy it by hand. Where a number can be computed, do not write it down. STATE.md and the map keep a few copies so each reads whole: those a program can copy are written by `tools/sync_project.py` (rule 6), never typed, and the rest are held to their home by [parity](specs/README.md#map-and-spec-parity) and the check.
 2. **This file holds only what stays true:** rules, stable paths and when to read them. No status, counts, current dates or lists that grow. A new spec, study, feature or decision needs no edit here; only a new rule, a new top-level file or folder or a new reading trigger does. New detail goes in the file it belongs to.
-3. **Every document is mapped, and the project stands alone.** No link leaves the project folder: what it needs from outside is copied in with its source and date, or cited by URL. Every tracked `.md` and `.html` file is reachable from this file through links, and every top-level file or folder is mapped in [Main files](#main-files) or the [file map](#file-map). A new document is linked from its folder's index in the same change, with when to read it. A folder of code or data needs only one file-map row whose link ends in a slash, written as a link to `src/`: that maps the folder as a whole, and the check does not read inside it. Tool configuration files can share one row with a pattern in backticks, such as `*.json`.
+3. **The project stands alone, and every document is mapped.** Nothing in it depends on a file outside its folder: no link, path or script reaches into another project or one person's machine, no ID is shared with another project, and what the next session needs is written in these files, never left only in an agent's memory or a conversation. What it needs from outside is copied in with its source and date, or cited by URL. The check sees only the links; the rest is for whoever makes the change. Every tracked `.md` and `.html` file is reachable from this file through links, and every top-level file or folder is mapped in [Main files](#main-files) or the [file map](#file-map). A new document is linked from its folder's index in the same change, with when to read it. A folder of code or data needs only one file-map row whose link ends in a slash, written as a link to `src/`: that maps the folder as a whole, and the check does not read inside it. Tool configuration files can share one row with a pattern in backticks, such as `*.json`.
 4. **Coupled files change together,** in the same commit: see the table below.
 5. **Stale facts get fixed when met.** Fix a stale fact in a file you are changing or one the check names, and say so in the report. If it is unclear which version is true, flag it; never change a decision silently. Report anything else stale in one line, without expanding the task.
 6. **Run the check before ending any turn that changed files:** `python -I tools/check_project.py .` Before it, `python -I tools/sync_project.py .` writes the facts a program can copy from their one home: STATE.md's version and counts, each spec file's Map parts row and the status on the map's reference. It decides nothing and prints each change. The [pre-commit hook](tools/hooks/pre-commit) runs it and refuses a commit that fails. A new clone turns the hook on once: `git config core.hooksPath tools/hooks`. The check is one command, not a gate system: it tests facts in files, never whether work is finished, and it reads no code and runs no tests. If it fails, fix the file. Skipping, disabling or loosening it is for the owner to decide ([When something fails](#how-work-gets-done)).
